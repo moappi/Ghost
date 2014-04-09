@@ -48,18 +48,28 @@ ghostBookshelf.Model = ghostBookshelf.Model.extend({
     },
 
     creating: function () {
+        
         if (!this.get('created_by')) {
-            this.set('created_by', 1);
+            
+            //Set the created_by (if we haven't already set it) 
+            // to the current user
+            this.set('created_by', this.attributes.current_user);
         }
     },
 
     saving: function () {
+        
+        //Grab the user (the current user)
+        var current_user = this.attributes.current_user;
+        
          // Remove any properties which don't belong on the model
         this.attributes = this.pick(this.permittedAttributes());
 
         // sessions do not have 'updated_by' column
         if (this.tableName !== 'sessions') {
-            this.set('updated_by', 1);
+            
+            //Set the updated_by to the current user
+            this.set('updated_by', current_user);
         }
     },
 

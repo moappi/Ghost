@@ -77,7 +77,7 @@ Post = ghostBookshelf.Model.extend({
                 this.set('published_at', new Date());
             }
             // This will need to go elsewhere in the API layer.
-            this.set('published_by', 1);
+            this.set('published_by', newPage.attributes.author_id);
         }
 
         if (this.hasChanged('slug') || !this.get('slug')) {
@@ -96,7 +96,7 @@ Post = ghostBookshelf.Model.extend({
 
         // set any dynamic default properties
         if (!this.get('author_id')) {
-            this.set('author_id', 1);
+            this.set('author_id', newPage.attributes.current_user);
         }
 
         ghostBookshelf.Model.prototype.creating.call(this);

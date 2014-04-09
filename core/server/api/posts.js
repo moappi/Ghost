@@ -64,6 +64,10 @@ posts = {
         if (!this.user) {
             return when.reject({code: 403, message: 'You do not have permission to edit this post.'});
         }
+
+        //Save the current user
+        postData.current_user = this.user;
+
         var self = this;
         return canThis(self.user).edit.post(postData.id).then(function () {
             return dataProvider.Post.edit(postData).then(function (result) {
@@ -95,6 +99,9 @@ posts = {
         if (!this.user) {
             return when.reject({code: 403, message: 'You do not have permission to add posts.'});
         }
+        
+        //Save the current user
+        postData.current_user = this.user;
 
         return canThis(this.user).create.post().then(function () {
             return dataProvider.Post.add(postData);
